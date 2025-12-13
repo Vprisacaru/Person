@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Person
 {
@@ -49,26 +49,54 @@ namespace Person
         {
             return FirstName + " " + LastName + ", " + Age + " ani";
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is not Person other) return false;
+
+            string a1 = FirstName ?? string.Empty;
+            string b1 = LastName ?? string.Empty;
+            string a2 = other.FirstName ?? string.Empty;
+            string b2 = other.LastName ?? string.Empty;
+
+
+            return string.Equals(a1, a2, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(b1,b2, StringComparison.OrdinalIgnoreCase) && Age == other.Age;
+          
+        }
+        public override int GetHashCode()
+        {
+            string f = (FirstName ?? string.Empty).ToLowerInvariant();
+            string l = (LastName ?? string.Empty).ToLowerInvariant();
+            return HashCode.Combine(f, l, Age);
+        }
     }
 
     class Program
     {
         static void Main()
         {
-            Person p1 = new Person("Maria", "Rusu", 22);
-            Person p2 = new Person(null, "Popescu", 30);
+            Person p1 = new Person("Maria", "Rusu", 22);                            
+            Person p2 = new Person("Maria", "Rusu", 22);                            
+            Person p3 = new Person("Maria", "Rusu", 22);                            
+            Person p4 = new Person("Maria", "Rusu", 22);                            
+            Person p5 = new Person("Maria", "Rusu", 22);
+            Person p6 = new Person("Igor", "Popescu", 30);
+            Person p7 = new Person("Maria", "Rusu", 22);
+                
 
-            Console.WriteLine("Pana la schimbare");
-            Console.WriteLine(p1);
-            Console.WriteLine(p2);
+          var set = new HashSet<Person>();
+            set.Add(p1);
+            set.Add(p2);
+            set.Add(p3);
+            set.Add(p4);
+            set.Add(p5);
+            set.Add(p6);
+            set.Add(p7);
 
-            Console.WriteLine("Dupa schimbare");
+            Console.WriteLine(set.Count);
 
-            p1.Age = 30;
-            p1.LastName = "Monca";
-            p1.FirstName = "Test";
-
-            Console.WriteLine(p1);
         }
 
     }
