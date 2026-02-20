@@ -38,6 +38,12 @@ namespace Person
             set { age = value; }
         }
 
+        public int Tag 
+        {
+            get { return tag}
+            set { tag = value}
+        }
+
         public Person(string f, string l, int a)
         {
             FirstName = f;
